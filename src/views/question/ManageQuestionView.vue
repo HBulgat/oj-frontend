@@ -30,7 +30,7 @@ import { useRouter } from "vue-router";
 const dataList = ref([]);
 const total = ref(0);
 const searchParams = ref({
-  pageSize: 5,
+  pageSize: 10,
   current: 1,
 });
 const loadData = async () => {
