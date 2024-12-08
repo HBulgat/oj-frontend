@@ -12,6 +12,30 @@
       }"
       @page-change="onPageChange"
     >
+      <template #tags="{ record }">
+        <a-space wrap>
+          <a-tag
+            v-for="(tag, index) of JSON.parse(record.tags)"
+            :key="index"
+            color="green"
+            >{{ tag }}
+          </a-tag>
+        </a-space>
+      </template>
+      <template #judgeConfig="{ record }">
+        <div style="white-space: pre">
+          {{
+            "时间限制:" +
+            JSON.parse(record.judgeConfig).timeLimit +
+            "\n" +
+            "内存限制:" +
+            JSON.parse(record.judgeConfig).memoryLimit
+          }}
+        </div>
+      </template>
+      <template #createTime="{ record }">
+        {{ moment(record.createTime).format("YYYY-MM-DD") }}
+      </template>
       <template #optional="{ record }">
         <a-space>
           <a-button type="primary" @click="doUpdate(record)">修改</a-button>
@@ -26,6 +50,7 @@ import { onMounted, ref, watchEffect } from "vue";
 import { Question, QuestionControllerService } from "../../../generated";
 import { Message } from "@arco-design/web-vue";
 import { useRouter } from "vue-router";
+import moment from "moment";
 
 const dataList = ref([]);
 const total = ref(0);
@@ -57,18 +82,18 @@ const columns = [
     title: "标题",
     dataIndex: "title",
   },
-  {
-    title: "内容",
-    dataIndex: "content",
-  },
+  // {
+  //   title: "内容",
+  //   dataIndex: "content",
+  // },
   {
     title: "标签",
-    dataIndex: "tags",
+    slotName: "tags",
   },
-  {
-    title: "答案",
-    dataIndex: "answer",
-  },
+  // {
+  //   title: "答案",
+  //   dataIndex: "answer",
+  // },
   {
     title: "提交数",
     dataIndex: "submitNum",
@@ -79,20 +104,19 @@ const columns = [
   },
   {
     title: "判题配置",
-    dataIndex: "judgeConfig",
+    slotName: "judgeConfig",
   },
+  // {
+  //   title: "判题用例",
+  //   dataIndex: "judgeCase",
+  // },
   {
-    title: "判题用例",
-    dataIndex: "judgeCase",
-  },
-
-  {
-    title: "用户ID",
+    title: "创建者用户ID",
     dataIndex: "userId",
   },
   {
     title: "创建时间",
-    dataIndex: "createTime",
+    slotName: "createTime",
   },
   {
     title: "操作",

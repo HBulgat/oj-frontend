@@ -1,7 +1,7 @@
 <template>
   <div id="addQuestionView"></div>
   <a-form :model="form" :style="{ width: '600px' }" @submit="handleSubmit">
-    <a-form-item field="title">
+    <a-form-item field="title" label="标题">
       <a-input v-model="form.title" placeholder="请输入标题"></a-input>
     </a-form-item>
     <a-form-item field="tags" label="标签">
@@ -13,6 +13,12 @@
         :value="form.content"
         :handle-change="onContentChange"
       ></MdEditor>
+      <a-button
+        type="primary"
+        style="min-width: 100px; margin-left: 40px"
+        @click="doSubmitContent()"
+        >上传内容
+      </a-button>
     </a-form-item>
     <a-form-item field="answer" label="答案">
       <MdEditor
@@ -20,6 +26,12 @@
         :value="form.answer"
         :handle-change="onAnswerChange"
       ></MdEditor>
+      <a-button
+        type="primary"
+        style="min-width: 100px; margin-left: 40px"
+        @click="doSubmitAnswer()"
+        >上传答案
+      </a-button>
     </a-form-item>
 
     <a-form-item label="判题配置" :content-flex="false" :merge-props="false">
@@ -191,6 +203,12 @@ const doSubmit = async () => {
       Message.error("创建失败" + res.message);
     }
   }
+};
+const doSubmitContent = () => {
+  console.log("doSubmitContent");
+};
+const doSubmitAnswer = () => {
+  console.log("doSubmitAnswer");
 };
 const handleAdd = () => {
   form.value.judgeCase.push({

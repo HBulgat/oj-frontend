@@ -18,7 +18,7 @@ router.beforeEach(async (to, from, next) => {
     if (
       !loginUser ||
       !loginUser.userRole ||
-      loginUser.userRole == ACCESS_ENUM.NOT_LOGIN
+      loginUser.userRole === ACCESS_ENUM.NOT_LOGIN
     ) {
       next(`/user/login?redirect=${to.fullPath}`);
       return;

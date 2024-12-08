@@ -60,8 +60,8 @@ onMounted(() => {
       enabled: true,
     },
     // lineNumbers: "off",
-    // roundedSelection: false,
-    // scrollBeyondLastLine: false,
+    // roundedSelection: true,
+    scrollBeyondLastLine: true,
     readOnly: false,
     theme: "vs-dark",
   });

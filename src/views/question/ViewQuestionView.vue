@@ -37,30 +37,40 @@
           <a-tab-pane key="answer" title="答案"> 暂时无法查看答案</a-tab-pane>
         </a-tabs>
       </a-col>
-      <a-col :md="12" :xs="24">
-        <a-form :model="form" layout="inline">
-          <a-form-item
-            field="language"
-            label="编程语言"
-            style="min-width: 240px"
-          >
-            <a-select
-              :style="{ width: '320px' }"
-              placeholder="请选择编程语言"
-              v-model="form.language"
+      <a-col :md="12" :xs="24" style="margin-top: 40px">
+        <div
+          style="
+            border: 2px solid black;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 8px;
+          "
+        >
+          <a-form :model="form" layout="inline">
+            <a-form-item
+              field="language"
+              label="编程语言"
+              style="min-width: 240px"
             >
-              <a-option>java</a-option>
-              <a-option>cpp</a-option>
-              <a-option>go</a-option>
-            </a-select>
-          </a-form-item>
-        </a-form>
-        <CodeEditor
-          :value="form.code as string"
-          :language="form.language"
-          :handle-change="changeCode"
-        ></CodeEditor>
-        <a-divider size="0"></a-divider>
+              <a-select
+                :style="{ width: '320px' }"
+                placeholder="请选择编程语言"
+                v-model="form.language"
+              >
+                <a-option>java</a-option>
+                <a-option>cpp</a-option>
+                <a-option>go</a-option>
+              </a-select>
+            </a-form-item>
+          </a-form>
+          <CodeEditor
+            :value="form.code as string"
+            :language="form.language"
+            :handle-change="changeCode"
+          ></CodeEditor>
+          <a-divider size="0"></a-divider>
+        </div>
+
         <a-button type="primary" style="min-width: 200px" @click="doSubmit"
           >提交代码
         </a-button>

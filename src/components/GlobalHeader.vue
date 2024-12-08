@@ -25,7 +25,25 @@
       </div>
     </a-col>
     <a-col flex="100px">
-      <div>{{ store.state.user?.loginUser?.userName ?? "未登录" }}</div>
+      <div>
+        {{
+          store.state.user?.loginUser?.userRole === ACCESS_ENUM.NOT_LOGIN
+            ? "未登录"
+            : store.state.user?.loginUser?.userName
+        }}
+      </div>
+    </a-col>
+    <a-col flex="100px">
+      <template
+        v-if="store.state.user.loginUser.userRole === ACCESS_ENUM.NOT_LOGIN"
+        ><a-button type="primary" status="success" @click="doLogin()"
+          >登录</a-button
+        ></template
+      ><template v-else
+        ><a-button type="primary" status="danger" @click="doLogout()"
+          >登出</a-button
+        ></template
+      >
     </a-col>
   </a-row>
 </template>
@@ -37,6 +55,8 @@ import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
 import checkAccess from "@/access/checkAccess";
 import ACCESS_ENUM from "@/access/accessEnum";
+import { Message } from "@arco-design/web-vue";
+import { UserControllerService } from "../../generated";
 
 const router = useRouter();
 const route = useRoute();
@@ -64,13 +84,33 @@ const doMenuClick = (key: string) => {
   });
 };
 
-setTimeout(() => {
-  store.dispatch("user/getLoginUser", {
-    userName: "bulgat",
-    userRole: ACCESS_ENUM.ADMIN,
+// setTimeout(() => {
+//   store.dispatch("user/getLoginUser", {
+//     userName: "bulgat",
+//     userRole: ACCESS_ENUM.ADMIN,
+//   });
+// }, 3000);
+
+const doLogin = () => {
+  router.push({
+    path: "/user/login",
   });
-  console.log("----------------");
-}, 3000);
+};
+const doLogout = async () => {
+  const loginUser = store.state.user.loginUser;
+  console.log("doLogout", loginUser);
+  if (loginUser.userRole === ACCESS_ENUM.NOT_LOGIN) {
+    Message.error("未登录");
+    console.log("未登录");
+    return;
+  }
+  const res = await UserControllerService.userLogoutUsingPost();
+  if (res.code === 0) {
+    await store.dispatch("user/getLoginUser");
+  } else {
+    Message.error("登出失败，", res.message);
+  }
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

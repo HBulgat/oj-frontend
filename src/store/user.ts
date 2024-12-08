@@ -19,7 +19,7 @@ export default {
       } else {
         commit("updateUser", {
           ...state.loginUser,
-          useRole: ACCESS_ENUM.NOT_LOGIN,
+          userRole: ACCESS_ENUM.NOT_LOGIN,
         });
       }
     },
