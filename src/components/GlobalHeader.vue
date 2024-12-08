@@ -34,16 +34,18 @@
       </div>
     </a-col>
     <a-col flex="100px">
-      <template
-        v-if="store.state.user.loginUser.userRole === ACCESS_ENUM.NOT_LOGIN"
-        ><a-button type="primary" status="success" @click="doLogin()"
-          >登录</a-button
-        ></template
-      ><template v-else
-        ><a-button type="primary" status="danger" @click="doLogout()"
-          >登出</a-button
-        ></template
-      >
+      <div>
+        <template
+          v-if="store.state.user.loginUser.userRole === ACCESS_ENUM.NOT_LOGIN"
+          ><a-button type="primary" status="success" @click="doLogin()"
+            >登录</a-button
+          ></template
+        ><template v-else
+          ><a-button type="primary" status="danger" @click="doLogout()"
+            >登出</a-button
+          ></template
+        >
+      </div>
     </a-col>
   </a-row>
 </template>
@@ -74,7 +76,7 @@ const visibleRoutes = computed(() => {
   });
 });
 console.log("visibleRoutes", visibleRoutes);
-const selectedKeys = ref(["/"]);
+const selectedKeys = ref(["/user/message"]);
 router.afterEach((to, from, failure) => {
   selectedKeys.value = [to.path];
 });
@@ -83,14 +85,6 @@ const doMenuClick = (key: string) => {
     path: key,
   });
 };
-
-// setTimeout(() => {
-//   store.dispatch("user/getLoginUser", {
-//     userName: "bulgat",
-//     userRole: ACCESS_ENUM.ADMIN,
-//   });
-// }, 3000);
-
 const doLogin = () => {
   router.push({
     path: "/user/login",
@@ -98,7 +92,6 @@ const doLogin = () => {
 };
 const doLogout = async () => {
   let loginUser = store.state.user.loginUser;
-  console.log("doLogout", loginUser);
   if (loginUser.userRole === ACCESS_ENUM.NOT_LOGIN) {
     Message.error("未登录");
     console.log("未登录");
@@ -109,6 +102,7 @@ const doLogout = async () => {
     await store.dispatch("user/getLoginUser");
     loginUser = store.state.user.loginUser;
     const needAccess = route.meta.access;
+    console.log("doLogout", loginUser, route.name);
     if (!checkAccess(loginUser, needAccess as any)) {
       router.push({
         path: "/",

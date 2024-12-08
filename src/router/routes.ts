@@ -1,21 +1,36 @@
 import { RouteRecordRaw } from "vue-router";
-import AdminView from "@/views/AdminView.vue";
 import NoAuthView from "@/views/NoAuthView.vue";
 import ACCESS_ENUM from "@/access/accessEnum";
 import UserLayout from "@/layouts/UserLayout.vue";
 import UserLoginView from "@/views/user/UserLoginView.vue";
 import UserRegisterView from "@/views/user/UserRegisterView.vue";
-import ExampleView from "../views/ExampleView.vue";
 import AddQuestionView from "@/views/question/AddQuestionView.vue";
 import ManageQuestionView from "@/views/question/ManageQuestionView.vue";
 import QuestionsView from "@/views/question/QuestionsView.vue";
 import QuestionSubmitView from "@/views/question/QuestionSubmitView.vue";
 import ViewQuestionView from "@/views/question/ViewQuestionView.vue";
+import UserMessageView from "@/views/user/UserMessageView.vue";
+import { useStore } from "vuex";
+
+const store = useStore();
 export const routes: Array<RouteRecordRaw> = [
+  // {
+  //   path: "/",
+  //   name: "主页",
+  //   component: QuestionsView,
+  // },
   {
     path: "/",
     name: "主页",
     component: QuestionsView,
+  },
+  {
+    path: "/user/message",
+    name: "用户信息",
+    component: UserMessageView,
+    meta: {
+      access: ACCESS_ENUM.USER,
+    },
   },
   {
     path: "/user",
@@ -29,11 +44,17 @@ export const routes: Array<RouteRecordRaw> = [
         path: "/user/login",
         name: "用户登录",
         component: UserLoginView,
+        meta: {
+          hideInMenu: true,
+        },
       },
       {
         path: "/user/register",
         name: "用户注册",
         component: UserRegisterView,
+        meta: {
+          hideInMenu: true,
+        },
       },
     ],
   },
@@ -51,11 +72,17 @@ export const routes: Array<RouteRecordRaw> = [
     path: "/questions",
     name: "浏览题目",
     component: QuestionsView,
+    meta: {
+      hideInMenu: true,
+    },
   },
   {
     path: "/question_submit",
     name: "浏览题目提交",
     component: QuestionSubmitView,
+    meta: {
+      access: ACCESS_ENUM.USER,
+    },
   },
   {
     path: "/add/question",
