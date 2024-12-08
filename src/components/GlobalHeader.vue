@@ -76,7 +76,7 @@ const visibleRoutes = computed(() => {
   });
 });
 console.log("visibleRoutes", visibleRoutes);
-const selectedKeys = ref(["/user/message"]);
+const selectedKeys = ref(["/"]);
 router.afterEach((to, from, failure) => {
   selectedKeys.value = [to.path];
 });

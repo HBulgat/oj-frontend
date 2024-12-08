@@ -1,5 +1,5 @@
 <template>
-  <div class="userRegisterView">
+  <div id="userRegisterView">
     <h2 style="margin-bottom: 16px">用户注册</h2>
     <a-form
       style="max-width: 480px; margin: 0 auto"
