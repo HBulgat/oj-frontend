@@ -97,7 +97,7 @@ const doLogin = () => {
   });
 };
 const doLogout = async () => {
-  const loginUser = store.state.user.loginUser;
+  let loginUser = store.state.user.loginUser;
   console.log("doLogout", loginUser);
   if (loginUser.userRole === ACCESS_ENUM.NOT_LOGIN) {
     Message.error("未登录");
@@ -107,6 +107,13 @@ const doLogout = async () => {
   const res = await UserControllerService.userLogoutUsingPost();
   if (res.code === 0) {
     await store.dispatch("user/getLoginUser");
+    loginUser = store.state.user.loginUser;
+    const needAccess = route.meta.access;
+    if (!checkAccess(loginUser, needAccess as any)) {
+      router.push({
+        path: "/",
+      });
+    }
   } else {
     Message.error("登出失败，", res.message);
   }

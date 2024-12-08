@@ -57,15 +57,15 @@
                 placeholder="请选择编程语言"
                 v-model="form.language"
               >
-                <a-option>java</a-option>
-                <a-option>cpp</a-option>
-                <a-option>go</a-option>
+                <a-option value="java">java</a-option>
+                <a-option value="cpp">cpp</a-option>
+                <a-option value="go">go</a-option>
               </a-select>
             </a-form-item>
           </a-form>
           <CodeEditor
             :value="form.code as string"
-            :language="form.language"
+            :language="form.language as string"
             :handle-change="changeCode"
           ></CodeEditor>
           <a-divider size="0"></a-divider>
@@ -106,7 +106,7 @@ const doSubmit = async () => {
   if (!question.value?.id) {
     return;
   }
-  const res = await QuestionSubmitControllerService.doQuestionSubmitUsingPost({
+  const res = await QuestionControllerService.doQuestionSubmitUsingPost({
     ...form.value,
     questionId: question.value.id,
   });
