@@ -2,9 +2,11 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { LanguageJudgeConfig } from './LanguageJudgeConfig';
 export type JudgeConfig = {
-    memoryLimit?: number;
-    stackLimit?: number;
-    timeLimit?: number;
+    languageCJudgeConfig?: LanguageJudgeConfig;
+    languageCppJudgeConfig?: LanguageJudgeConfig;
+    languageJavaJudgeConfig?: LanguageJudgeConfig;
+    languagePythonJudgeConfig?: LanguageJudgeConfig;
 };
 

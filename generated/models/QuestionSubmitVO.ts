@@ -9,11 +9,13 @@ export type QuestionSubmitVO = {
     code?: string;
     createTime?: string;
     id?: number;
-    judgeInfo?: JudgeInfo;
+    judgeInfo?: Array<JudgeInfo>;
     language?: string;
+    maxMemory?: number;
+    maxTime?: number;
     questionId?: number;
     questionVO?: QuestionVO;
-    status?: number;
+    status?: string;
     updateTime?: string;
     userId?: number;
     userVO?: UserVO;

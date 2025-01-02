@@ -60,9 +60,9 @@ const router = useRouter();
 const store = useStore();
 const handleSubmit = async () => {
   const res = await UserControllerService.userLoginUsingPost(form);
-  console.log("res", res);
+  // console.log("res", res);
   if (res.code === 0) {
-    console.log("00000000000000");
+    // console.log("00000000000000");
     await store.dispatch("user/getLoginUser");
     router.push({
       path: "/",

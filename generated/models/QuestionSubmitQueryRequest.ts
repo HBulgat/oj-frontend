@@ -9,7 +9,7 @@ export type QuestionSubmitQueryRequest = {
     questionId?: number;
     sortField?: string;
     sortOrder?: string;
-    status?: number;
+    status?: string;
     userId?: number;
 };
 

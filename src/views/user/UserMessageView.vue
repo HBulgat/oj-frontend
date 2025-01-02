@@ -4,33 +4,33 @@
       <a-descriptions class="margin-top" title="简介" :column="3" bordered>
         <a-descriptions-item>
           <template v-slot:label>
-            <i class="el-icon-picture-outline"></i>
+            <!-- <i class="a-icon-picture-outline"></i> -->
             头像
           </template>
           <img
             class="img"
-            src="../../assets/logo.png"
+            src="../../assets/avatar.png"
             height="40px"
             width="40px"
           />
         </a-descriptions-item>
         <a-descriptions-item>
           <template v-slot:label>
-            <i class="el-icon-user"></i>
+            <!-- <i class="a-icon-user"></i> -->
             昵称
           </template>
           {{ userData.userName }}
         </a-descriptions-item>
         <a-descriptions-item>
           <template v-slot:label>
-            <i class="el-icon-user"></i>
+            <!-- <i class="a-icon-user"></i> -->
             用户角色
           </template>
           {{ convertUserRoleToChinese(userData.userRole as string) }}
         </a-descriptions-item>
         <a-descriptions-item>
           <template v-slot:label>
-            <i class="el-icon-user"></i>
+            <!-- <i class="a-icon-user"></i> -->
             简介
           </template>
           {{ userData.userProfile === null ? "空白" : userData.userProfile }}
@@ -71,7 +71,7 @@ const convertUserRoleToChinese = (userRole: string) => {
     case ACCESS_ENUM.USER:
       return "普通用户";
     default:
-      return "未登录";
+      return "被ban";
   }
 };
 onMounted(() => {
@@ -79,6 +79,6 @@ onMounted(() => {
 });
 </script>
 <style scoped>
-#questionsView {
+#userMessageView {
 }
 </style>

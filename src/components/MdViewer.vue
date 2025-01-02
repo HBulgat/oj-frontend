@@ -1,11 +1,8 @@
 <template>
-  <Viewer :value="value" :plugins="plugins" readonly />
+  <v-md-preview :text="value"></v-md-preview>
 </template>
 
 <script setup lang="ts">
-import gfm from "@bytemd/plugin-gfm";
-import highlight from "@bytemd/plugin-highlight";
-import { Viewer } from "@bytemd/vue-next";
 import { defineProps, withDefaults } from "vue";
 
 interface Props {
@@ -15,11 +12,6 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   value: () => "",
 });
-const plugins = [
-  gfm(),
-  highlight(),
-  // Add more plugins here
-];
 </script>
 
 <style></style>

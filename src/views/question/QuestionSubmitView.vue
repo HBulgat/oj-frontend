@@ -1,12 +1,9 @@
 <template>
   <div id="questionSubmitView">
-    <h2>题目列表</h2>
+    <h2>题目提交列表</h2>
     <a-form :model="searchParams" layout="inline">
       <a-form-item field="questionId" label="题号" style="min-width: 240px">
-        <a-input-tag
-          v-model="searchParams.questionId"
-          placeholder="请输入题号"
-        />
+        <a-input v-model="searchParams.questionId" placeholder="请输入题号" />
       </a-form-item>
       <a-form-item field="language" label="编程语言" style="min-width: 240px">
         <a-select
@@ -16,7 +13,8 @@
         >
           <a-option value="java">java</a-option>
           <a-option value="cpp">cpp</a-option>
-          <a-option value="go">go</a-option>
+          <a-option value="c">c</a-option>
+          <a-option value="python">python</a-option>
         </a-select>
       </a-form-item>
       <a-form-item>
@@ -35,22 +33,40 @@
       }"
       @page-change="onPageChange"
     >
-      <template #judgeInfo="{ record }">
-        <div style="white-space: pre">
-          {{
-            "返回信息:" +
-            record.judgeInfo.message +
-            "\n" +
-            "时间消耗:" +
-            record.judgeInfo.time +
-            "\n" +
-            "内存消耗:" +
-            record.judgeInfo.memory
-          }}
-        </div>
+      <template #id="{ record }">
+        <a
+          @click="toQuestionSubmitPage(record.id)"
+          style="color: blue; text-decoration: underline"
+          >{{ record.id }}</a
+        >
+      </template>
+      <template #result="{ record }">
+        <span
+          :style="{
+            color: getColorByValue(record.status),
+          }"
+          >{{ record.status }}</span
+        >
+      </template>
+      <template #user="{ record }">
+        {{ record.userVO.userName }}
+      </template>
+      <template #maxTime="{ record }">
+        {{ record.maxTime + `ms` }}
+      </template>
+      <template #maxMemory="{ record }">
+        {{ record.maxMemory + `KB` }}
       </template>
       <template #createTime="{ record }">
         {{ moment(record.createTime).format("YYYY-MM-DD") }}
+      </template>
+      <template #questionId="{ record }">
+        <a
+          @click="toQuestionPage(record.questionId)"
+          style="color: blue; text-decoration: underline"
+        >
+          {{ record.questionId }}
+        </a>
       </template>
     </a-table>
   </div>
@@ -65,6 +81,7 @@ import {
 import { Message } from "@arco-design/web-vue";
 import { useRouter } from "vue-router";
 import moment from "moment";
+import { getColorByValue } from "@/enums/QuestionSubmitJudgeStatusEnum";
 
 const dataList = ref([]);
 const total = ref(0);
@@ -92,31 +109,43 @@ onMounted(() => {
 const columns = [
   {
     title: "提交号",
-    dataIndex: "id",
+    slotName: "id",
+    align: "center",
   },
   {
     title: "编程语言",
     dataIndex: "language",
+    align: "center",
   },
   {
-    title: "判题信息",
-    slotName: "judgeInfo",
+    title: "判题结果",
+    slotName: "result",
+    align: "center",
   },
   {
-    title: "判题状态",
-    dataIndex: "status",
+    title: "消耗内存",
+    slotName: "maxMemory",
+    align: "center",
   },
   {
-    title: "题目 ID",
-    dataIndex: "questionId",
+    title: "消耗时间",
+    slotName: "maxTime",
+    align: "center",
   },
   {
-    title: "提交者 ID",
-    dataIndex: "userId",
+    title: "题号",
+    slotName: "questionId",
+    align: "center",
   },
   {
-    title: "创建时间",
+    title: "提交者",
+    slotName: "user",
+    align: "center",
+  },
+  {
+    title: "提交时间",
     slotName: "createTime",
+    align: "center",
   },
 ];
 const onPageChange = (page: number) => {
@@ -126,9 +155,14 @@ const onPageChange = (page: number) => {
   };
 };
 const router = useRouter();
-const toQuestionPage = (question: Question) => {
+const toQuestionPage = (questionId: number) => {
   router.push({
-    path: `/view/question/${question.id}`,
+    path: `/view/question/${questionId}`,
+  });
+};
+const toQuestionSubmitPage = (questionSubmitId: number) => {
+  router.push({
+    path: `/view/question_submit/${questionSubmitId}`,
   });
 };
 watchEffect(() => {
@@ -136,7 +170,6 @@ watchEffect(() => {
 });
 
 const doSubmit = () => {
-  console.log("doSubmit", searchParams.value);
   //重置搜索页号
   searchParams.value = {
     ...searchParams.value,

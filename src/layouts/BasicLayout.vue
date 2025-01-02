@@ -6,7 +6,7 @@
       </a-layout-header>
       <a-layout-content class="content"><router-view /> </a-layout-content>
       <a-layout-footer class="footer">
-        <a href="https://hbulgat.github.io" target="_blank"> OJ by bulgat </a>
+        <a href="https://hbulgat.github.io" target="_blank"> XOJ by bulgat </a>
       </a-layout-footer>
     </a-layout>
   </div>

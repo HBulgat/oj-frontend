@@ -10,16 +10,16 @@
                 :column="{ xs: 1, md: 2, lg: 3 }"
               >
                 <a-descriptions-item label="时间限制">
-                  {{ question.judgeConfig.timeLimit ?? 0 }}
+                  {{ formatTimeLimit(question.judgeConfig) }}
                 </a-descriptions-item>
                 <a-descriptions-item label="内存限制">
-                  {{ question.judgeConfig.memoryLimit ?? 0 }}
-                </a-descriptions-item>
-                <a-descriptions-item label="堆栈限制">
-                  {{ question.judgeConfig.stackLimit ?? 0 }}
+                  {{ formatMemoryLimit(question.judgeConfig) }}
                 </a-descriptions-item>
               </a-descriptions>
-              <MdViewer :value="question.content || ''"></MdViewer>
+              <MdViewer
+                :value="question.content"
+                style="width: fit-content"
+              ></MdViewer>
               <template #extra>
                 <a-space wrap>
                   <a-tag
@@ -34,16 +34,18 @@
             </a-card>
           </a-tab-pane>
           <a-tab-pane key="comment" title="评论" disabled> 评论区</a-tab-pane>
-          <a-tab-pane key="answer" title="答案"> 暂时无法查看答案</a-tab-pane>
+          <a-tab-pane key="answer" title="答案" disabled>
+            暂时无法查看答案</a-tab-pane
+          >
         </a-tabs>
       </a-col>
       <a-col :md="12" :xs="24" style="margin-top: 40px">
         <div
           style="
-            border: 2px solid black;
+            border: 2px solid #999494;
             padding: 10px;
             margin: 10px;
-            border-radius: 8px;
+            border-radius: 4px;
           "
         >
           <a-form :model="form" layout="inline">
@@ -59,7 +61,8 @@
               >
                 <a-option value="java">java</a-option>
                 <a-option value="cpp">cpp</a-option>
-                <a-option value="go">go</a-option>
+                <a-option value="c">c</a-option>
+                <a-option value="python">python</a-option>
               </a-select>
             </a-form-item>
           </a-form>
@@ -81,16 +84,17 @@
 <script setup lang="ts">
 import { onMounted, ref, withDefaults, defineProps } from "vue";
 import {
+  JudgeConfig,
   QuestionControllerService,
   QuestionSubmitAddRequest,
-  QuestionSubmitControllerService,
   QuestionVO,
 } from "../../../generated";
 import { Message } from "@arco-design/web-vue";
 import { useRouter } from "vue-router";
 import CodeEditor from "@/components/CodeEditor.vue";
 import MdViewer from "@/components/MdViewer.vue";
-
+import utils from "@/utils/formatUtils";
+const { formatTimeLimit, formatMemoryLimit } = utils;
 const router = useRouter();
 const question = ref<QuestionVO>();
 const form = ref<QuestionSubmitAddRequest>({

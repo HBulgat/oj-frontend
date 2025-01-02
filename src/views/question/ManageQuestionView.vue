@@ -75,52 +75,44 @@ onMounted(() => {
 });
 const columns = [
   {
-    title: "id",
+    title: "题号",
     dataIndex: "id",
+    align: "center",
   },
   {
     title: "标题",
     dataIndex: "title",
+    align: "center",
   },
-  // {
-  //   title: "内容",
-  //   dataIndex: "content",
-  // },
   {
     title: "标签",
     slotName: "tags",
+    align: "center",
   },
-  // {
-  //   title: "答案",
-  //   dataIndex: "answer",
-  // },
   {
     title: "提交数",
     dataIndex: "submitNum",
+    align: "center",
   },
   {
     title: "通过数",
     dataIndex: "acceptedNum",
+    align: "center",
   },
-  {
-    title: "判题配置",
-    slotName: "judgeConfig",
-  },
-  // {
-  //   title: "判题用例",
-  //   dataIndex: "judgeCase",
-  // },
   {
     title: "创建者用户ID",
     dataIndex: "userId",
+    align: "center",
   },
   {
     title: "创建时间",
     slotName: "createTime",
+    align: "center",
   },
   {
     title: "操作",
     slotName: "optional",
+    align: "center",
   },
 ];
 const onPageChange = (page: number) => {
@@ -156,5 +148,7 @@ const doUpdate = (question: Question) => {
 </script>
 <style scoped>
 #manageQuestionView {
+  max-width: 1280px;
+  margin: 0 auto;
 }
 </style>

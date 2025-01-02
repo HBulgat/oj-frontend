@@ -34,7 +34,9 @@
       <template #acceptedRate="{ record }">
         {{
           `${
-            record.submitNum ? record.acceptedNum / record.acceptedNum : "0"
+            record.submitNum != 0
+              ? (record.acceptedNum / record.submitNum) * 100
+              : "0"
           }%(${record.acceptedNum}/${record.submitNum})`
         }}
       </template>
@@ -85,25 +87,31 @@ const columns = [
   {
     title: "题号",
     dataIndex: "id",
+    align: "center",
   },
   {
     title: "题目名称",
     dataIndex: "title",
+    align: "center",
   },
   {
     title: "标签",
     slotName: "tags",
+    align: "center",
   },
   {
     title: "通过率",
     slotName: "acceptedRate",
+    align: "center",
   },
   {
     title: "创建时间",
     slotName: "createTime",
+    align: "center",
   },
   {
     slotName: "optional",
+    align: "center",
   },
 ];
 const onPageChange = (page: number) => {

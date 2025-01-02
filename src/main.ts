@@ -6,6 +6,14 @@ import ArcoVue from "@arco-design/web-vue";
 import "@arco-design/web-vue/dist/arco.css";
 import "@/plugins/axios";
 import "@/access";
-import "bytemd/dist/index.css";
 
-createApp(App).use(ArcoVue).use(store).use(router).mount("#app");
+import VueMarkdownEditor from "@/plugins/mdEditor";
+import VMdPreview from "@/plugins/mdPreviewer";
+
+createApp(App)
+  .use(ArcoVue)
+  .use(store)
+  .use(router)
+  .use(VueMarkdownEditor)
+  .use(VMdPreview)
+  .mount("#app");

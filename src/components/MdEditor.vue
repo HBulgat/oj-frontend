@@ -1,17 +1,14 @@
 <template>
-  <Editor
-    :value="value"
-    :mode="mode"
-    :plugins="plugins"
+  <v-md-editor
+    v-model="localValue"
+    height="900px"
     @change="handleChange"
-  />
+  ></v-md-editor>
 </template>
 
 <script setup lang="ts">
-import gfm from "@bytemd/plugin-gfm";
-import highlight from "@bytemd/plugin-highlight";
-import { Editor, Viewer } from "@bytemd/vue-next";
-import { ref, withDefaults, defineProps } from "vue";
+import { defineProps, withDefaults, computed, defineEmits, ref } from "vue";
+import VMdEditor from "@kangc/v-md-editor";
 
 interface Props {
   value: string;
@@ -26,15 +23,9 @@ const props = withDefaults(defineProps<Props>(), {
     console.log(v);
   },
 });
-const plugins = [
-  gfm(),
-  highlight(),
-  // Add more plugins here
-];
+const localValue = ref<string>("");
 </script>
 
-<style>
-.bytemd-toolbar-icon.bytemd-tippy.bytemd-tippy-right:last-child {
-  display: none;
-}
+<style scoped>
+/* 这里可以添加针对该组件的样式调整，如果有的话，示例中暂未添加额外样式 */
 </style>

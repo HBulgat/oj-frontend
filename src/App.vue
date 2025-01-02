@@ -25,7 +25,7 @@ import { useRoute } from "vue-router";
 const route = useRoute();
 
 const doInit = () => {
-  console.log("");
+  // console.log("");
 };
 onMounted(() => {
   doInit();

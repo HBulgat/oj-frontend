@@ -27,25 +27,50 @@
         />
       </a-form-item>
       <a-form-item>
-        <a-button
+        <!-- <a-button
           type="primary"
           status="success"
           html-type="submit"
           style="width: 120px"
           >注册</a-button
-        >
+        > -->
+        <a-row :gutter="180">
+          <a-col :span="12">
+            <div>
+              <a-button
+                type="primary"
+                @click="toLoginPage()"
+                style="width: 100px"
+                >返回登录</a-button
+              >
+            </div>
+          </a-col>
+          <a-col :span="12">
+            <div>
+              <div>
+                <a-button
+                  type="primary"
+                  html-type="submit"
+                  status="success"
+                  style="width: 100px"
+                  >注册</a-button
+                >
+              </div>
+            </div>
+          </a-col>
+        </a-row>
       </a-form-item>
     </a-form>
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
 import { UserRegisterRequest, UserControllerService } from "../../../generated";
 
-const form = reactive({
+const form = ref({
   userAccount: "",
   userName: "",
   userPassword: "",
@@ -53,8 +78,8 @@ const form = reactive({
 } as UserRegisterRequest);
 const router = useRouter();
 const handleSubmit = async () => {
-  const res = await UserControllerService.userRegisterUsingPost(form);
-  console.log("res", res);
+  const res = await UserControllerService.userRegisterUsingPost(form.value);
+  // console.log("res", res);
   if (res.code === 0) {
     message.success("注册成功");
     router.push({
@@ -64,5 +89,10 @@ const handleSubmit = async () => {
   } else {
     message.error("注册失败," + res.message);
   }
+};
+const toLoginPage = () => {
+  router.push({
+    path: "/user/login",
+  });
 };
 </script>

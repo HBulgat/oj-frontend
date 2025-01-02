@@ -1,6 +1,6 @@
 <template>
   <div id="addQuestionView"></div>
-  <a-form :model="form" :style="{ width: '600px' }" @submit="handleSubmit">
+  <a-form :model="form" :style="{ width: '1250px' }" @submit="handleSubmit">
     <a-form-item field="title" label="标题">
       <a-input v-model="form.title" placeholder="请输入标题"></a-input>
     </a-form-item>
@@ -9,61 +9,119 @@
     </a-form-item>
     <a-form-item field="content" label="内容">
       <MdEditor
-        style="min-width: 1200px"
+        style="min-width: 1500px"
         :value="form.content"
         :handle-change="onContentChange"
       ></MdEditor>
-      <a-button
-        type="primary"
-        style="min-width: 100px; margin-left: 40px"
-        @click="doSubmitContent()"
-        >上传内容
-      </a-button>
-    </a-form-item>
-    <a-form-item field="answer" label="答案">
-      <MdEditor
-        style="min-width: 1200px"
-        :value="form.answer"
-        :handle-change="onAnswerChange"
-      ></MdEditor>
-      <a-button
-        type="primary"
-        style="min-width: 100px; margin-left: 40px"
-        @click="doSubmitAnswer()"
-        >上传答案
-      </a-button>
     </a-form-item>
 
     <a-form-item label="判题配置" :content-flex="false" :merge-props="false">
-      <a-space direction="vertical" style="min-width: 480px">
-        <a-form-item field="judgeConfig.timeLimit" label="时间限制">
-          <a-input-number
-            v-model="form.judgeConfig.timeLimit"
-            placeholder="请输入时间限制（单位：ms）"
-            mode="button"
-            size="large"
-            min="0"
-          />
-        </a-form-item>
-        <a-form-item field="judgeConfig.memoryLimit" label="内存限制">
-          <a-input-number
-            v-model="form.judgeConfig.memoryLimit"
-            placeholder="请输入内存限制（单位：KB）"
-            mode="button"
-            size="large"
-            min="0"
-          />
-        </a-form-item>
-        <a-form-item field="judgeConfig.stackLimit" label="堆栈限制">
-          <a-input-number
-            v-model="form.judgeConfig.stackLimit"
-            placeholder="请输入堆栈限制（单位：KB）"
-            mode="button"
-            size="large"
-            min="0"
-          />
-        </a-form-item>
-      </a-space>
+      <div>
+        <a-space direction="vertical" style="min-width: 800px">
+          <a-form-item
+            field="judgeConfig.languageJavaJudgeConfig.timeLimit"
+            label="Java语言 时间限制"
+          >
+            <a-input-number
+              v-model="form.judgeConfig.languageJavaJudgeConfig.timeLimit"
+              placeholder="请输入时间限制（单位：ms）"
+              mode="button"
+              size="large"
+              min="0"
+            />
+          </a-form-item>
+          <a-form-item
+            field="judgeConfig.languageJavaJudgeConfig.memoryLimit"
+            label="Java语言 内存限制"
+          >
+            <a-input-number
+              v-model="form.judgeConfig.languageJavaJudgeConfig.memoryLimit"
+              placeholder="请输入内存限制（单位：KB）"
+              mode="button"
+              size="large"
+              min="0"
+            />
+          </a-form-item>
+        </a-space>
+        <a-space direction="vertical" style="min-width: 800px">
+          <a-form-item
+            field="judgeConfig.languageCJudgeConfig.timeLimit"
+            label="C语言 时间限制"
+          >
+            <a-input-number
+              v-model="form.judgeConfig.languageCJudgeConfig.timeLimit"
+              placeholder="请输入时间限制（单位：ms）"
+              mode="button"
+              size="large"
+              min="0"
+            />
+          </a-form-item>
+          <a-form-item
+            field="judgeConfig.languageCJudgeConfig.memoryLimit"
+            label="C语言 内存限制"
+          >
+            <a-input-number
+              v-model="form.judgeConfig.languageCJudgeConfig.memoryLimit"
+              placeholder="请输入内存限制（单位：KB）"
+              mode="button"
+              size="large"
+              min="0"
+            />
+          </a-form-item>
+        </a-space>
+        <a-space direction="vertical" style="min-width: 800px">
+          <a-form-item
+            field="judgeConfig.languageCppJudgeConfig.timeLimit"
+            label="C++语言 时间限制"
+          >
+            <a-input-number
+              v-model="form.judgeConfig.languageCppJudgeConfig.timeLimit"
+              placeholder="请输入时间限制（单位：ms）"
+              mode="button"
+              size="large"
+              min="0"
+            />
+          </a-form-item>
+          <a-form-item
+            field="judgeConfig.languageCppJudgeConfig.memoryLimit"
+            label="C++语言 内存限制"
+          >
+            <a-input-number
+              v-model="form.judgeConfig.languageCppJudgeConfig.memoryLimit"
+              placeholder="请输入内存限制（单位：KB）"
+              mode="button"
+              size="large"
+              min="0"
+            />
+          </a-form-item>
+        </a-space>
+        <a-space direction="vertical" style="min-width: 800px">
+          <a-form-item
+            field="judgeConfig.languagePythonJudgeConfig.timeLimit"
+            label="Python语言 时间限制"
+          >
+            <a-input-number
+              v-model="form.judgeConfig.languagePythonJudgeConfig.timeLimit"
+              placeholder="请输入时间限制（单位：ms）"
+              mode="button"
+              size="large"
+              min="0"
+            />
+          </a-form-item>
+          <a-form-item
+            field="judgeConfig.languagePythonJudgeConfig.memoryLimit"
+            label="Python语言 内存限制"
+          >
+            <a-input-number
+              v-model="form.judgeConfig.languagePythonJudgeConfig.memoryLimit"
+              placeholder="请输入内存限制（单位：KB）"
+              mode="button"
+              size="large"
+              min="0"
+            />
+          </a-form-item>
+        </a-space>
+      </div>
     </a-form-item>
     <a-form-item
       label="测试用例配置"
@@ -81,7 +139,7 @@
             :label="`输入样例-${index}`"
             :key="index"
           >
-            <a-input
+            <a-textarea
               v-model="judgeCaseItem.input"
               placeholder="请输入测试输入样例"
             />
@@ -91,7 +149,7 @@
             :label="`输出样例-${index}`"
             :key="index"
           >
-            <a-input
+            <a-textarea
               v-model="judgeCaseItem.output"
               placeholder="请输入测试输出样例"
             />
@@ -114,14 +172,16 @@
   </a-form>
 </template>
 <script setup lang="ts">
-import { onMounted, reactive, ref } from "vue";
+import { onMounted, ref } from "vue";
 import MdEditor from "@/components/MdEditor.vue";
-import { QuestionControllerService } from "../../../generated";
+import {
+  type QuestionAddRequest,
+  QuestionControllerService,
+} from "../../../generated";
 import { Message } from "@arco-design/web-vue";
 import { useRoute } from "vue-router";
 
-let form = ref({
-  answer: "",
+let form = ref<QuestionAddRequest>({
   content: "",
   judgeCase: [
     {
@@ -130,9 +190,22 @@ let form = ref({
     },
   ],
   judgeConfig: {
-    memoryLimit: 1000,
-    stackLimit: 1000,
-    timeLimit: 1000,
+    languageCJudgeConfig: {
+      timeLimit: 1000,
+      memoryLimit: 1000,
+    },
+    languageCppJudgeConfig: {
+      timeLimit: 1000,
+      memoryLimit: 1000,
+    },
+    languageJavaJudgeConfig: {
+      timeLimit: 1000,
+      memoryLimit: 1000,
+    },
+    languagePythonJudgeConfig: {
+      timeLimit: 1000,
+      memoryLimit: 1000,
+    },
   },
   tags: [],
   title: "",
@@ -150,6 +223,8 @@ const loadData = async () => {
   );
   if (res.code === 0) {
     form.value = res.data as any;
+    // console.log("loadData", form.value);
+    form.value.content = res.data?.content;
     if (!form.value.judgeCase) {
       form.value.judgeCase = [
         {
@@ -162,9 +237,22 @@ const loadData = async () => {
     }
     if (!form.value.judgeConfig) {
       form.value.judgeConfig = {
-        memoryLimit: 1000,
-        stackLimit: 1000,
-        timeLimit: 1000,
+        languageCJudgeConfig: {
+          timeLimit: 1000,
+          memoryLimit: 1000,
+        },
+        languageCppJudgeConfig: {
+          timeLimit: 1000,
+          memoryLimit: 1000,
+        },
+        languageJavaJudgeConfig: {
+          timeLimit: 1000,
+          memoryLimit: 1000,
+        },
+        languagePythonJudgeConfig: {
+          timeLimit: 1000,
+          memoryLimit: 1000,
+        },
       };
     } else {
       form.value.judgeConfig = JSON.parse(form.value.judgeConfig as any);
@@ -182,7 +270,7 @@ onMounted(() => {
   loadData();
 });
 const doSubmit = async () => {
-  console.log(form);
+  // console.log(form);
   //判断更新还是新增
   if (updatePage) {
     const res = await QuestionControllerService.updateQuestionUsingPost(
@@ -204,12 +292,7 @@ const doSubmit = async () => {
     }
   }
 };
-const doSubmitContent = () => {
-  console.log("doSubmitContent");
-};
-const doSubmitAnswer = () => {
-  console.log("doSubmitAnswer");
-};
+
 const handleAdd = () => {
   form.value.judgeCase.push({
     input: "",
@@ -220,13 +303,11 @@ const handleDelete = (index: number) => {
   form.value.judgeCase.splice(index, 1);
 };
 const handleSubmit = () => {
-  console.log(1);
+  // console.log(1);
 };
 const onContentChange = (value: string) => {
+  // console.log("onContentChange", form.value.content);
   form.value.content = value;
-};
-const onAnswerChange = (value: string) => {
-  form.value.answer = value;
 };
 </script>
 <style scoped></style>

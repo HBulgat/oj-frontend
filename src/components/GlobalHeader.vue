@@ -14,8 +14,8 @@
             disabled
           >
             <div class="title-bar">
-              <img class="logo" src="../assets/oj-logo.svg" />
-              <div class="title">OJ</div>
+              <img class="logo" src="../assets/oj-logo.png" />
+              <div class="title">XOJ</div>
             </div>
           </a-menu-item>
           <a-menu-item v-for="item in visibleRoutes" :key="item.path">{{
@@ -75,7 +75,7 @@ const visibleRoutes = computed(() => {
     return true;
   });
 });
-console.log("visibleRoutes", visibleRoutes);
+// console.log("visibleRoutes", visibleRoutes);
 const selectedKeys = ref(["/"]);
 router.afterEach((to, from, failure) => {
   selectedKeys.value = [to.path];
@@ -94,7 +94,7 @@ const doLogout = async () => {
   let loginUser = store.state.user.loginUser;
   if (loginUser.userRole === ACCESS_ENUM.NOT_LOGIN) {
     Message.error("未登录");
-    console.log("未登录");
+    // console.log("未登录");
     return;
   }
   const res = await UserControllerService.userLogoutUsingPost();
@@ -102,7 +102,7 @@ const doLogout = async () => {
     await store.dispatch("user/getLoginUser");
     loginUser = store.state.user.loginUser;
     const needAccess = route.meta.access;
-    console.log("doLogout", loginUser, route.name);
+    // console.log("doLogout", loginUser, route.name);
     if (!checkAccess(loginUser, needAccess as any)) {
       router.push({
         path: "/",

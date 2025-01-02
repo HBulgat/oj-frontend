@@ -9,16 +9,12 @@ import ManageQuestionView from "@/views/question/ManageQuestionView.vue";
 import QuestionsView from "@/views/question/QuestionsView.vue";
 import QuestionSubmitView from "@/views/question/QuestionSubmitView.vue";
 import ViewQuestionView from "@/views/question/ViewQuestionView.vue";
+import ViewQuestionSubmitView from "@/views/question/ViewQuestionSubmitView.vue";
 import UserMessageView from "@/views/user/UserMessageView.vue";
 import { useStore } from "vuex";
 
 const store = useStore();
 export const routes: Array<RouteRecordRaw> = [
-  // {
-  //   path: "/",
-  //   name: "主页",
-  //   component: QuestionsView,
-  // },
   {
     path: "/",
     name: "主页",
@@ -85,6 +81,16 @@ export const routes: Array<RouteRecordRaw> = [
     },
   },
   {
+    path: "/view/question_submit/:id",
+    name: "题目提交详情",
+    props: true,
+    component: ViewQuestionSubmitView,
+    meta: {
+      access: ACCESS_ENUM.USER,
+      hideInMenu: true,
+    },
+  },
+  {
     path: "/add/question",
     name: "创建题目",
     component: AddQuestionView,
@@ -97,7 +103,7 @@ export const routes: Array<RouteRecordRaw> = [
     name: "更新题目",
     component: AddQuestionView,
     meta: {
-      access: ACCESS_ENUM.USER,
+      access: ACCESS_ENUM.ADMIN,
       hideInMenu: true,
     },
   },
@@ -107,32 +113,6 @@ export const routes: Array<RouteRecordRaw> = [
     component: ManageQuestionView,
     meta: {
       access: ACCESS_ENUM.ADMIN,
-    },
-  },
-  // {
-  //   path: "/about",
-  //   name: "about",
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () =>
-  //     import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
-  // },
-  // {
-  //   path: "/admin",
-  //   name: "仅管理员可见",
-  //   component: AdminView,
-  //   meta: {
-  //     access: ACCESS_ENUM.ADMIN,
-  //   },
-  // },
-  {
-    path: "/noAuth",
-    name: "权限缺失",
-    component: NoAuthView,
-    meta: {
-      hideInMenu: true,
-      access: ACCESS_ENUM.NOT_LOGIN,
     },
   },
 ];

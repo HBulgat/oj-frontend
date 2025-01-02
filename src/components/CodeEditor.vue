@@ -2,32 +2,26 @@
   <div
     id="code-editor"
     ref="codeEditorRef"
-    style="min-height: 400px; height: 70vh"
+    style="min-height: 400px; height: 90vh"
   ></div>
 </template>
 <script setup lang="ts">
 import * as monaco from "monaco-editor";
-import {
-  defineProps,
-  onMounted,
-  ref,
-  toRaw,
-  watch,
-  watchEffect,
-  withDefaults,
-} from "vue";
+import { defineProps, onMounted, ref, toRaw, watch, withDefaults } from "vue";
 
 interface Props {
   value: string;
   language: string;
+  readOnly: boolean;
   handleChange: (v: string) => void;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   value: () => "",
   language: () => "java",
+  readOnly: () => false,
   handleChange: (v: string) => {
-    console.log(v);
+    // console.log(v);
   },
 });
 const codeEditorRef = ref();

@@ -2,14 +2,11 @@
   <div id="userLayout">
     <a-layout style="min-height: 100vh">
       <a-layout-header class="header">
-        <a-space>
-          <img src="../assets/oj-logo.svg" class="logo" />
-          <div>OJ</div>
-        </a-space></a-layout-header
-      >
+        <a-space> <img src="../assets/oj-logo.png" class="logo" /> </a-space
+      ></a-layout-header>
       <a-layout-content class="content"><router-view /> </a-layout-content>
       <a-layout-footer class="footer">
-        <a href="https://hbulgat.github.io" target="_blank"> OJ by bulgat </a>
+        <a href="https://hbulgat.github.io" target="_blank"> XOJ by bulgat </a>
       </a-layout-footer>
     </a-layout>
   </div>

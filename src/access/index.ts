@@ -4,7 +4,7 @@ import checkAccess from "./checkAccess";
 import ACCESS_ENUM from "./accessEnum";
 
 router.beforeEach(async (to, from, next) => {
-  console.log("登录用户信息" + store.state.user.loginUser);
+  // console.log("登录用户信息" + store.state.user.loginUser);
   let loginUser = store.state.user.loginUser;
   //如果没登陆，自动登录
   if (!loginUser || !loginUser.userRole) {
