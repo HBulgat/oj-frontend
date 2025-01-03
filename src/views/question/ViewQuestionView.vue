@@ -94,6 +94,7 @@ import { useRouter } from "vue-router";
 import CodeEditor from "@/components/CodeEditor.vue";
 import MdViewer from "@/components/MdViewer.vue";
 import utils from "@/utils/formatUtils";
+const size = ref(0.5);
 const { formatTimeLimit, formatMemoryLimit } = utils;
 const router = useRouter();
 const question = ref<QuestionVO>();

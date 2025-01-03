@@ -48,7 +48,7 @@
 <script setup lang="ts">
 import { UserControllerService, UserLoginRequest } from "../../../generated";
 import { reactive } from "vue";
-import message from "@arco-design/web-vue/es/message";
+import { Message } from "@arco-design/web-vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 
@@ -69,7 +69,7 @@ const handleSubmit = async () => {
       replace: true,
     });
   } else {
-    message.error("登录失败," + res.message);
+    Message.error("登录失败," + res.message);
   }
 };
 const handleRegister = () => {

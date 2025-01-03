@@ -66,7 +66,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from "vue";
-import message from "@arco-design/web-vue/es/message";
+import { Message } from "@arco-design/web-vue";
 import { useRouter } from "vue-router";
 import { UserRegisterRequest, UserControllerService } from "../../../generated";
 
@@ -81,13 +81,13 @@ const handleSubmit = async () => {
   const res = await UserControllerService.userRegisterUsingPost(form.value);
   // console.log("res", res);
   if (res.code === 0) {
-    message.success("注册成功");
+    Message.success("注册成功");
     router.push({
       path: "/user/login",
       replace: true,
     });
   } else {
-    message.error("注册失败," + res.message);
+    Message.error("注册失败," + res.message);
   }
 };
 const toLoginPage = () => {

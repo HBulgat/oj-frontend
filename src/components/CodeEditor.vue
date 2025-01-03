@@ -2,34 +2,37 @@
   <div
     id="code-editor"
     ref="codeEditorRef"
-    style="min-height: 400px; height: 90vh"
+    style="min-height: 400px; height: 70vh"
   ></div>
+  <!--  <a-button @click="fillValue"></a-button>-->
 </template>
 <script setup lang="ts">
 import * as monaco from "monaco-editor";
-import { defineProps, onMounted, ref, toRaw, watch, withDefaults } from "vue";
+import {
+  defineProps,
+  onMounted,
+  ref,
+  toRaw,
+  watch,
+  watchEffect,
+  withDefaults,
+} from "vue";
 
 interface Props {
   value: string;
   language: string;
-  readOnly: boolean;
   handleChange: (v: string) => void;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   value: () => "",
   language: () => "java",
-  readOnly: () => false,
   handleChange: (v: string) => {
-    // console.log(v);
+    console.log(v);
   },
 });
 const codeEditorRef = ref();
 const codeEditor = ref();
-// const fillValue = () => {
-//   if (!codeEditor.value) return;
-//   toRaw(codeEditor.value).setValue("新的值");
-// };
 watch(
   () => props.language,
   () => {
@@ -54,10 +57,10 @@ onMounted(() => {
       enabled: true,
     },
     // lineNumbers: "off",
-    // roundedSelection: true,
-    scrollBeyondLastLine: true,
+    // roundedSelection: false,
+    // scrollBeyondLastLine: false,
     readOnly: false,
-    theme: "vs-dark",
+    theme: "vs-light",
   });
   //编辑监听内容变化
   codeEditor.value.onDidChangeModelContent(() => {
