@@ -4,19 +4,10 @@
     ref="codeEditorRef"
     style="min-height: 400px; height: 70vh"
   ></div>
-  <!--  <a-button @click="fillValue"></a-button>-->
 </template>
 <script setup lang="ts">
 import * as monaco from "monaco-editor";
-import {
-  defineProps,
-  onMounted,
-  ref,
-  toRaw,
-  watch,
-  watchEffect,
-  withDefaults,
-} from "vue";
+import { defineProps, onMounted, ref, toRaw, watch, withDefaults } from "vue";
 
 interface Props {
   value: string;
@@ -54,7 +45,7 @@ onMounted(() => {
     language: props.language,
     automaticLayout: true,
     minimap: {
-      enabled: true,
+      enabled: false,
     },
     // lineNumbers: "off",
     // roundedSelection: false,

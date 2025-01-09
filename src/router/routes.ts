@@ -11,9 +11,8 @@ import QuestionSubmitView from "@/views/question/QuestionSubmitView.vue";
 import ViewQuestionView from "@/views/question/ViewQuestionView.vue";
 import ViewQuestionSubmitView from "@/views/question/ViewQuestionSubmitView.vue";
 import UserMessageView from "@/views/user/UserMessageView.vue";
-import { useStore } from "vuex";
+import IntroductionView from "@/views/IntroductionView.vue";
 
-const store = useStore();
 export const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
@@ -26,6 +25,7 @@ export const routes: Array<RouteRecordRaw> = [
     component: UserMessageView,
     meta: {
       access: ACCESS_ENUM.USER,
+      hideInMenu: true,
     },
   },
   {
@@ -74,7 +74,7 @@ export const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/question_submit",
-    name: "浏览题目提交",
+    name: "题目提交",
     component: QuestionSubmitView,
     meta: {
       access: ACCESS_ENUM.USER,
@@ -114,5 +114,10 @@ export const routes: Array<RouteRecordRaw> = [
     meta: {
       access: ACCESS_ENUM.ADMIN,
     },
+  },
+  {
+    path: "/introduction",
+    name: "说明文档",
+    component: IntroductionView,
   },
 ];

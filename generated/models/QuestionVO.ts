@@ -10,6 +10,7 @@ export type QuestionVO = {
     createTime?: string;
     id?: number;
     judgeConfig?: JudgeConfig;
+    judgeType?: string;
     submitNum?: number;
     tags?: Array<string>;
     title?: string;

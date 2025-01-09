@@ -3,6 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { BaseResponse_boolean_ } from '../models/BaseResponse_boolean_';
+import type { BaseResponse_List_JudgeTypeOption_ } from '../models/BaseResponse_List_JudgeTypeOption_';
+import type { BaseResponse_List_LanguageOption_ } from '../models/BaseResponse_List_LanguageOption_';
 import type { BaseResponse_long_ } from '../models/BaseResponse_long_';
 import type { BaseResponse_Page_Question_ } from '../models/BaseResponse_Page_Question_';
 import type { BaseResponse_Page_QuestionSubmitVO_ } from '../models/BaseResponse_Page_QuestionSubmitVO_';
@@ -10,12 +12,14 @@ import type { BaseResponse_Page_QuestionVO_ } from '../models/BaseResponse_Page_
 import type { BaseResponse_Question_ } from '../models/BaseResponse_Question_';
 import type { BaseResponse_QuestionSubmitVO_ } from '../models/BaseResponse_QuestionSubmitVO_';
 import type { BaseResponse_QuestionVO_ } from '../models/BaseResponse_QuestionVO_';
+import type { BaseResponse_string_ } from '../models/BaseResponse_string_';
 import type { DeleteRequest } from '../models/DeleteRequest';
 import type { QuestionAddRequest } from '../models/QuestionAddRequest';
 import type { QuestionQueryRequest } from '../models/QuestionQueryRequest';
 import type { QuestionSubmitAddRequest } from '../models/QuestionSubmitAddRequest';
 import type { QuestionSubmitQueryRequest } from '../models/QuestionSubmitQueryRequest';
 import type { QuestionUpdateRequest } from '../models/QuestionUpdateRequest';
+import type { SpecialJudgeProgramAddRequest } from '../models/SpecialJudgeProgramAddRequest';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
@@ -34,6 +38,27 @@ export class QuestionControllerService {
             method: 'POST',
             url: '/api/question/add',
             body: questionAddRequest,
+            errors: {
+                401: `Unauthorized`,
+                403: `Forbidden`,
+                404: `Not Found`,
+            },
+        });
+    }
+    /**
+     * addSpecialJudgeProgram
+     * @param specialJudgeProgramAddRequest specialJudgeProgramAddRequest
+     * @returns BaseResponse_string_ OK
+     * @returns any Created
+     * @throws ApiError
+     */
+    public static addSpecialJudgeProgramUsingPost(
+        specialJudgeProgramAddRequest: SpecialJudgeProgramAddRequest,
+    ): CancelablePromise<BaseResponse_string_ | any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/question/add/specialjudgeprogram',
+            body: specialJudgeProgramAddRequest,
             errors: {
                 401: `Unauthorized`,
                 403: `Forbidden`,
@@ -170,6 +195,22 @@ export class QuestionControllerService {
         });
     }
     /**
+     * listQuestionJudgeTypeOption
+     * @returns BaseResponse_List_JudgeTypeOption_ OK
+     * @throws ApiError
+     */
+    public static listQuestionJudgeTypeOptionUsingGet(): CancelablePromise<BaseResponse_List_JudgeTypeOption_> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/question/question/list/judge_type_option',
+            errors: {
+                401: `Unauthorized`,
+                403: `Forbidden`,
+                404: `Not Found`,
+            },
+        });
+    }
+    /**
      * doQuestionSubmit
      * @param questionSubmitAddRequest questionSubmitAddRequest
      * @returns BaseResponse_long_ OK
@@ -191,12 +232,12 @@ export class QuestionControllerService {
         });
     }
     /**
-     * getQuestionVOSubmitById
+     * getQuestionSubmitVOById
      * @param id id
      * @returns BaseResponse_QuestionSubmitVO_ OK
      * @throws ApiError
      */
-    public static getQuestionVoSubmitByIdUsingGet(
+    public static getQuestionSubmitVoByIdUsingGet(
         id?: number,
     ): CancelablePromise<BaseResponse_QuestionSubmitVO_> {
         return __request(OpenAPI, {
@@ -205,6 +246,22 @@ export class QuestionControllerService {
             query: {
                 'id': id,
             },
+            errors: {
+                401: `Unauthorized`,
+                403: `Forbidden`,
+                404: `Not Found`,
+            },
+        });
+    }
+    /**
+     * listQuestionSubmitLanguageOption
+     * @returns BaseResponse_List_LanguageOption_ OK
+     * @throws ApiError
+     */
+    public static listQuestionSubmitLanguageOptionUsingGet(): CancelablePromise<BaseResponse_List_LanguageOption_> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/question/question_submit/list/language_option',
             errors: {
                 401: `Unauthorized`,
                 403: `Forbidden`,

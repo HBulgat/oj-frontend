@@ -2,20 +2,78 @@
   <div id="viewQuestionSubmitView">
     <a-row :gutter="[24, 24]">
       <a-col :md="12" :xs="24">
-        <a-card v-if="questionSubmit?.questionVO?.title" title="题目">
-          <a-descriptions title="判题条件" :column="{ xs: 1, md: 2, lg: 3 }">
+        <a-card v-if="questionSubmit?.questionVO" title="题目">
+          <a-descriptions
+            layout="vertical"
+            bordered
+            title="判题条件"
+            :column="{ xs: 2, md: 2, lg: 3 }"
+          >
             <a-descriptions-item label="时间限制">
-              {{ formatTimeLimit(questionSubmit.questionVO.judgeConfig) }}
+              <a-space :size="[0, 'small']" wrap>
+                <a-tag :bordered="false" color="processing"
+                  >C :{{
+                    questionSubmit?.questionVO?.judgeConfig.languageCJudgeConfig
+                      .timeLimit
+                  }}ms</a-tag
+                >
+                <a-tag :bordered="false" color="success"
+                  >Cpp :{{
+                    questionSubmit?.questionVO?.judgeConfig
+                      .languageCppJudgeConfig.timeLimit
+                  }}ms</a-tag
+                >
+                <a-tag :bordered="false" color="warning"
+                  >Java :{{
+                    questionSubmit?.questionVO?.judgeConfig
+                      .languageJavaJudgeConfig.timeLimit
+                  }}ms</a-tag
+                >
+                <a-tag :bordered="false" color="error"
+                  >Python:{{
+                    questionSubmit?.questionVO?.judgeConfig
+                      .languagePythonJudgeConfig.timeLimit
+                  }}ms</a-tag
+                >
+              </a-space>
             </a-descriptions-item>
             <a-descriptions-item label="内存限制">
-              {{ formatMemoryLimit(questionSubmit.questionVO?.judgeConfig) }}
+              <a-space :size="[0, 'small']" wrap>
+                <a-tag :bordered="false" color="processing"
+                  >C :{{
+                    questionSubmit?.questionVO?.judgeConfig.languageCJudgeConfig
+                      .memoryLimit
+                  }}KB</a-tag
+                >
+                <a-tag :bordered="false" color="success"
+                  >Cpp :{{
+                    questionSubmit?.questionVO?.judgeConfig
+                      .languageCppJudgeConfig.memoryLimit
+                  }}KB</a-tag
+                >
+                <a-tag :bordered="false" color="warning"
+                  >Java :{{
+                    questionSubmit?.questionVO?.judgeConfig
+                      .languageJavaJudgeConfig.memoryLimit
+                  }}KB</a-tag
+                >
+                <a-tag :bordered="false" color="error"
+                  >Python:{{
+                    questionSubmit?.questionVO?.judgeConfig
+                      .languagePythonJudgeConfig.memoryLimit
+                  }}KB</a-tag
+                >
+              </a-space>
             </a-descriptions-item>
           </a-descriptions>
-          <MdViewer :value="questionSubmit.questionVO.content || ''"></MdViewer>
+          <MdViewer
+            :value="questionSubmit?.questionVO?.content"
+            style="margin: 0"
+          ></MdViewer>
           <template #extra>
             <a-space wrap>
               <a-tag
-                v-for="(tag, index) of questionSubmit.questionVO.tags"
+                v-for="(tag, index) of questionSubmit?.questionVO?.tags"
                 :key="index"
                 color="green"
                 closable
@@ -42,7 +100,7 @@ import {
   QuestionControllerService,
   QuestionSubmitVO,
 } from "../../../generated";
-import { Message } from "@arco-design/web-vue";
+import { message } from "ant-design-vue";
 import { useRouter } from "vue-router";
 import MdViewer from "@/components/MdViewer.vue";
 import utils from "@/utils/formatUtils";
@@ -51,7 +109,6 @@ import {
   QuestionSubmitJudgeStatusEnum,
 } from "@/enums/QuestionSubmitJudgeStatusEnum";
 
-const { formatMemoryLimit, formatTimeLimit } = utils;
 const router = useRouter();
 
 const questionSubmit = ref<QuestionSubmitVO>();
@@ -65,13 +122,13 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const loadData = async () => {
-  const res = await QuestionControllerService.getQuestionVoSubmitByIdUsingGet(
+  const res = await QuestionControllerService.getQuestionSubmitVoByIdUsingGet(
     props.id as any
   );
   if (res.code === 0) {
     questionSubmit.value = res.data;
   } else {
-    Message.error("加载失败," + res.message);
+    message.error("加载失败," + res.message);
   }
 };
 onMounted(() => {
@@ -90,7 +147,7 @@ const formatQuestionSubmitResult = (questionSubmit) => {
     questionSubmit.status +
     `</span>` +
     (questionSubmit.status === QuestionSubmitJudgeStatusEnum.COMPILE_ERROR.value
-      ? "\n#### 编译信息：\n```\n" + questionSubmit.judgeInfo[0].text + "```"
+      ? "\n#### 编译信息：\n```\n" + questionSubmit.judgeInfo[0].text + "\n```"
       : "") +
     "\n### 判题信息：" +
     "\n时间消耗：" +

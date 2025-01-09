@@ -1,85 +1,89 @@
 <template>
   <div id="questionsView">
     <h2>题目列表</h2>
-    <a-form :model="searchParams" layout="inline">
-      <a-form-item field="title" label="名称" style="min-width: 240px">
-        <a-input v-model="searchParams.title" placeholder="请输入名称" />
+    <a-form :model="searchParams" layout="inline" @finish="doSubmit">
+      <a-form-item label="标题" style="min-width: 240px">
+        <a-input v-model:value="searchParams.title" placeholder="请输入名称" />
       </a-form-item>
-      <a-form-item field="tags" label="标签" style="min-width: 240px">
-        <a-input-tag v-model="searchParams.tags" placeholder="请输入标签" />
+      <a-form-item label="标签" style="min-width: 240px">
+        <a-input
+          v-model:value="searchParams.tags[0]"
+          placeholder="请输入标签"
+        />
       </a-form-item>
       <a-form-item>
-        <a-button @click="doSubmit()" type="primary">提交</a-button>
+        <a-button type="primary" html-type="submit">搜索</a-button>
       </a-form-item>
     </a-form>
-    <a-divider size="0"></a-divider>
+    <a-divider style="margin-top: 20px; margin-bottom: 20px" />
     <a-table
       :columns="columns"
-      :data="dataList"
-      :pagination="{
-        showTotal: show,
-        pageSize: searchParams.pageSize,
-        current: searchParams.current,
-        total: total,
-      }"
-      @page-change="onPageChange"
+      :data-source="dataList"
+      :pagination="pagination"
+      @change="doTablePageChange"
     >
-      <template #tags="{ record }">
-        <a-space wrap>
-          <a-tag v-for="(tag, index) of record.tags" :key="index" color="green"
-            >{{ tag }}
-          </a-tag>
-        </a-space>
-      </template>
-      <template #acceptedRate="{ record }">
-        {{
-          `${
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.dataIndex === 'tags'">
+          <a-space wrap>
+            <a-tag
+              v-for="(tag, index) of record.tags"
+              :key="index"
+              color="green"
+              >{{ tag }}
+            </a-tag>
+          </a-space>
+        </template>
+        <template v-if="column.key === 'acceptedRate'">
+          {{
             record.submitNum != 0
-              ? (record.acceptedNum / record.submitNum) * 100
+              ? ((record.acceptedNum / record.submitNum) * 100).toFixed(2) +
+                `%(${record.acceptedNum}/${record.submitNum})`
               : "0"
-          }%(${record.acceptedNum}/${record.submitNum})`
-        }}
-      </template>
-      <template #createTime="{ record }">
-        {{ moment(record.createTime).format("YYYY-MM-DD") }}
-      </template>
-      <template #optional="{ record }">
-        <a-space>
+          }}
+        </template>
+        <template v-if="column.dataIndex === 'createTime'">
+          {{ moment(record.createTime).format("YYYY-MM-DD") }}
+        </template>
+        <template v-if="column.key === 'operation'">
           <a-button type="primary" @click="toQuestionPage(record)"
-            >做题
-          </a-button>
-        </a-space>
+            >做题</a-button
+          >
+        </template>
       </template>
     </a-table>
   </div>
 </template>
 <script setup lang="ts">
-import { onMounted, ref, watchEffect } from "vue";
-import { Question, QuestionControllerService } from "../../../generated";
-import { Message } from "@arco-design/web-vue";
+import { computed, onMounted, reactive, ref, watchEffect } from "vue";
+import {
+  Question,
+  QuestionControllerService,
+  QuestionQueryRequest,
+} from "../../../generated";
+import { message } from "ant-design-vue";
 import { useRouter } from "vue-router";
 import moment from "moment";
 
 const dataList = ref([]);
 const total = ref(0);
-const searchParams = ref({
+const searchParams = reactive<QuestionQueryRequest>({
   title: "",
   tags: [],
   pageSize: 10,
   current: 1,
 });
 const loadData = async () => {
+  console.log(searchParams);
   const res = await QuestionControllerService.listQuestionVoByPageUsingPost(
-    searchParams.value
+    searchParams
   );
   if (res.code === 0) {
     dataList.value = res.data.records;
     total.value = res.data.total;
   } else {
-    Message.error("加载失败" + res.message);
+    message.error("加载失败" + res.message);
   }
 };
-const show = ref(true);
 onMounted(() => {
   loadData();
 });
@@ -96,29 +100,29 @@ const columns = [
   },
   {
     title: "标签",
-    slotName: "tags",
+    dataIndex: "tags",
     align: "center",
   },
   {
     title: "通过率",
-    slotName: "acceptedRate",
+    key: "acceptedRate",
     align: "center",
   },
   {
     title: "创建时间",
-    slotName: "createTime",
+    dataIndex: "createTime",
     align: "center",
   },
   {
-    slotName: "optional",
+    title: "操作",
+    key: "operation",
     align: "center",
   },
 ];
-const onPageChange = (page: number) => {
-  searchParams.value = {
-    ...searchParams.value,
-    current: page,
-  };
+const doTablePageChange = (page: any) => {
+  searchParams.current = page.current;
+  searchParams.pageSize = page.pageSize;
+  loadData();
 };
 const router = useRouter();
 const toQuestionPage = (question: Question) => {
@@ -132,16 +136,24 @@ watchEffect(() => {
 
 const doSubmit = () => {
   //重置搜索页号
-  searchParams.value = {
-    ...searchParams.value,
-    current: 1,
-  };
+  searchParams.current = 1;
   loadData();
 };
+const pagination = computed(() => {
+  return {
+    current: searchParams.current,
+    pageSize: searchParams.pageSize,
+    total: total.value,
+    showSizeChanger: true,
+    showTotal: (total) => {
+      return `共 ${total} 条`;
+    },
+  };
+});
 </script>
 <style scoped>
 #questionsView {
-  max-width: 1280px;
+  max-width: 1380px;
   margin: 0 auto;
 }
 </style>

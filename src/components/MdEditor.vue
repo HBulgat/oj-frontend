@@ -1,29 +1,35 @@
 <template>
   <v-md-editor
-    v-model="localValue"
-    height="900px"
+    :model-value="modelValue"
+    @update:model-value="(newValue) => emit('update:modelValue', newValue)"
+    :height="height"
     @change="handleChange"
   ></v-md-editor>
 </template>
 
 <script setup lang="ts">
-import { defineProps, withDefaults, computed, defineEmits, ref } from "vue";
+import { defineProps, defineEmits } from "vue";
 import VMdEditor from "@kangc/v-md-editor";
 
-interface Props {
-  value: string;
-  mode?: string;
-  handleChange: (v: string) => void;
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  value: () => "",
-  mode: () => "split",
-  handleChange: (v: string) => {
-    console.log(v);
+// 定义props，明确指定类型和默认值
+const props = defineProps({
+  modelValue: {
+    type: String,
+    default: "",
+  },
+  height: {
+    type: String,
+    default: "700px",
   },
 });
-const localValue = ref<string>("");
+
+// 定义emits，列出组件向外触发的事件
+const emit = defineEmits(["update:modelValue", "htmlContent"]);
+
+const handleChange = (markdownContent, htmlContent) => {
+  emit("update:modelValue", markdownContent);
+  emit("htmlContent", htmlContent);
+};
 </script>
 
 <style scoped>

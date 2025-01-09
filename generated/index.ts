@@ -8,6 +8,8 @@ export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
 export type { BaseResponse_boolean_ } from './models/BaseResponse_boolean_';
+export type { BaseResponse_List_JudgeTypeOption_ } from './models/BaseResponse_List_JudgeTypeOption_';
+export type { BaseResponse_List_LanguageOption_ } from './models/BaseResponse_List_LanguageOption_';
 export type { BaseResponse_LoginUserVO_ } from './models/BaseResponse_LoginUserVO_';
 export type { BaseResponse_long_ } from './models/BaseResponse_long_';
 export type { BaseResponse_Page_Question_ } from './models/BaseResponse_Page_Question_';
@@ -25,7 +27,9 @@ export type { DeleteRequest } from './models/DeleteRequest';
 export type { JudgeCase } from './models/JudgeCase';
 export type { JudgeConfig } from './models/JudgeConfig';
 export type { JudgeInfo } from './models/JudgeInfo';
+export type { JudgeTypeOption } from './models/JudgeTypeOption';
 export type { LanguageJudgeConfig } from './models/LanguageJudgeConfig';
+export type { LanguageOption } from './models/LanguageOption';
 export type { LoginUserVO } from './models/LoginUserVO';
 export type { OrderItem } from './models/OrderItem';
 export type { Page_Question_ } from './models/Page_Question_';
@@ -41,6 +45,7 @@ export type { QuestionSubmitQueryRequest } from './models/QuestionSubmitQueryReq
 export type { QuestionSubmitVO } from './models/QuestionSubmitVO';
 export type { QuestionUpdateRequest } from './models/QuestionUpdateRequest';
 export type { QuestionVO } from './models/QuestionVO';
+export type { SpecialJudgeProgramAddRequest } from './models/SpecialJudgeProgramAddRequest';
 export type { User } from './models/User';
 export type { UserAddRequest } from './models/UserAddRequest';
 export type { UserLoginRequest } from './models/UserLoginRequest';

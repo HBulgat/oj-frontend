@@ -1,4 +1,4 @@
-# oj-frontend
+# XOJ
 
 ## Project setup
 

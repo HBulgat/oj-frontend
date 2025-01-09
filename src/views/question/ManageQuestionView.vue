@@ -3,73 +3,64 @@
     <h2>题目管理</h2>
     <a-table
       :columns="columns"
-      :data="dataList"
-      :pagination="{
-        showTotal: show,
-        pageSize: searchParams.pageSize,
-        current: searchParams.current,
-        total: total,
-      }"
-      @page-change="onPageChange"
+      :data-source="dataList"
+      :pagination="pagination"
+      @change="doTablePageChange"
     >
-      <template #tags="{ record }">
-        <a-space wrap>
-          <a-tag
-            v-for="(tag, index) of JSON.parse(record.tags)"
-            :key="index"
-            color="green"
-            >{{ tag }}
-          </a-tag>
-        </a-space>
-      </template>
-      <template #judgeConfig="{ record }">
-        <div style="white-space: pre">
-          {{
-            "时间限制:" +
-            JSON.parse(record.judgeConfig).timeLimit +
-            "\n" +
-            "内存限制:" +
-            JSON.parse(record.judgeConfig).memoryLimit
-          }}
-        </div>
-      </template>
-      <template #createTime="{ record }">
-        {{ moment(record.createTime).format("YYYY-MM-DD") }}
-      </template>
-      <template #optional="{ record }">
-        <a-space>
-          <a-button type="primary" @click="doUpdate(record)">修改</a-button>
-          <a-button status="danger" @click="doDelete(record)">删除</a-button>
-        </a-space>
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.dataIndex === 'tags'">
+          <a-space wrap>
+            <a-tag
+              v-for="(tag, index) of JSON.parse(record.tags)"
+              :key="index"
+              color="green"
+              >{{ tag }}
+            </a-tag>
+          </a-space>
+        </template>
+        <template v-if="column.dataIndex === 'createTime'">
+          {{ moment(record.createTime).format("YYYY-MM-DD") }}
+        </template>
+        <template v-if="column.key === 'operation'">
+          <a-space>
+            <a-button type="primary" @click="doUpdate(record)">修改</a-button>
+            <a-button type="primary" danger @click="doDelete(record)"
+              >删除</a-button
+            >
+          </a-space>
+        </template>
       </template>
     </a-table>
   </div>
 </template>
 <script setup lang="ts">
-import { onMounted, ref, watchEffect } from "vue";
-import { Question, QuestionControllerService } from "../../../generated";
-import { Message } from "@arco-design/web-vue";
+import { computed, onMounted, reactive, ref, watchEffect } from "vue";
+import {
+  Question,
+  QuestionControllerService,
+  QuestionQueryRequest,
+} from "../../../generated";
+import { message } from "ant-design-vue";
 import { useRouter } from "vue-router";
 import moment from "moment";
 
 const dataList = ref([]);
 const total = ref(0);
-const searchParams = ref({
+const searchParams = reactive<QuestionQueryRequest>({
   pageSize: 10,
   current: 1,
 });
 const loadData = async () => {
   const res = await QuestionControllerService.listQuestionByPageUsingPost(
-    searchParams.value
+    searchParams
   );
   if (res.code === 0) {
     dataList.value = res.data.records;
     total.value = res.data.total;
   } else {
-    Message.error("加载失败" + res.message);
+    message.error("加载失败" + res.message);
   }
 };
-const show = ref(true);
 onMounted(() => {
   loadData();
 });
@@ -86,7 +77,7 @@ const columns = [
   },
   {
     title: "标签",
-    slotName: "tags",
+    dataIndex: "tags",
     align: "center",
   },
   {
@@ -106,20 +97,19 @@ const columns = [
   },
   {
     title: "创建时间",
-    slotName: "createTime",
+    dataIndex: "createTime",
     align: "center",
   },
   {
     title: "操作",
-    slotName: "optional",
+    key: "operation",
     align: "center",
   },
 ];
-const onPageChange = (page: number) => {
-  searchParams.value = {
-    ...searchParams.value,
-    current: page,
-  };
+const doTablePageChange = (page: any) => {
+  searchParams.current = page.current;
+  searchParams.pageSize = page.pageSize;
+  loadData();
 };
 
 const doDelete = async (question: Question) => {
@@ -127,10 +117,10 @@ const doDelete = async (question: Question) => {
     id: question.id,
   });
   if (res.code === 0) {
-    Message.success("删除成功");
+    message.success("删除成功");
     loadData();
   } else {
-    Message.error("删除失败" + res.message);
+    message.error("删除失败" + res.message);
   }
 };
 watchEffect(() => {
@@ -145,10 +135,21 @@ const doUpdate = (question: Question) => {
     },
   });
 };
+const pagination = computed(() => {
+  return {
+    current: searchParams.current,
+    pageSize: searchParams.pageSize,
+    total: total.value,
+    showSizeChanger: true,
+    showTotal: (total) => {
+      return `共 ${total} 条`;
+    },
+  };
+});
 </script>
 <style scoped>
 #manageQuestionView {
-  max-width: 1280px;
+  max-width: 1380px;
   margin: 0 auto;
 }
 </style>

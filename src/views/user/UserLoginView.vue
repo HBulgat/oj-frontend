@@ -1,54 +1,50 @@
 <template>
   <div id="userLoginView">
-    <h2 style="margin-bottom: 16px">用户登录</h2>
+    <h2 class="title">用户登录</h2>
     <a-form
-      style="max-width: 480px; margin: 0 auto"
-      label-align="left"
-      auto-label-width
       :model="form"
-      @submit="handleSubmit"
+      name="basic"
+      @finish="handleSubmit"
+      @finishFailed="onFinishFailed"
     >
-      <a-form-item field="userAccount" label="账号">
-        <a-input v-model="form.userAccount" placeholder="请输入账号" />
+      <a-form-item
+        label="用户账号"
+        name="userAccount"
+        :rules="[{ required: true, message: '请输入账号' }]"
+      >
+        <a-input v-model:value="form.userAccount" placeholder="请输入账号" />
       </a-form-item>
-      <a-form-item field="userPassword" tooltip="密码不少于八位" label="密码">
+
+      <a-form-item
+        label="用户密码"
+        name="userPassword"
+        :rules="[
+          { required: true, message: '请输入密码' },
+          { min: 8, message: '密码长度不能小于8位' },
+        ]"
+      >
         <a-input-password
-          v-model="form.userPassword"
+          v-model:value="form.userPassword"
           placeholder="请输入密码"
         />
       </a-form-item>
+
+      <div class="tips">
+        没有账号？
+        <RouterLink to="/user/register">立即注册</RouterLink>
+      </div>
       <a-form-item>
-        <a-row :gutter="180">
-          <a-col :span="12">
-            <div>
-              <a-button
-                type="primary"
-                status="success"
-                @click="handleRegister()"
-                style="width: 120px"
-                >注册</a-button
-              >
-            </div>
-          </a-col>
-          <a-col :span="12">
-            <div>
-              <div>
-                <a-button type="primary" html-type="submit" style="width: 120px"
-                  >登录</a-button
-                >
-              </div>
-            </div>
-          </a-col>
-        </a-row>
+        <a-button type="primary" html-type="submit" style="width: 100%"
+          >登录</a-button
+        >
       </a-form-item>
     </a-form>
   </div>
 </template>
-
 <script setup lang="ts">
 import { UserControllerService, UserLoginRequest } from "../../../generated";
 import { reactive } from "vue";
-import { Message } from "@arco-design/web-vue";
+import { message } from "ant-design-vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 
@@ -69,12 +65,28 @@ const handleSubmit = async () => {
       replace: true,
     });
   } else {
-    Message.error("登录失败," + res.message);
+    message.error("登录失败," + res.message);
   }
 };
-const handleRegister = () => {
-  router.push({
-    path: "/user/register",
-  });
+const onFinishFailed = (errorInfo: any) => {
+  console.log("Failed:", errorInfo);
 };
 </script>
+
+<style scoped>
+#userLoginView {
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 16px;
+}
+.tips {
+  color: #aaa7a7;
+  text-align: right;
+  font-size: 13px;
+  margin-bottom: 13px;
+}
+</style>

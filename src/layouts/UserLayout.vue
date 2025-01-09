@@ -2,9 +2,12 @@
   <div id="userLayout">
     <a-layout style="min-height: 100vh">
       <a-layout-header class="header">
-        <a-space> <img src="../assets/oj-logo.png" class="logo" /> </a-space
-      ></a-layout-header>
-      <a-layout-content class="content"><router-view /> </a-layout-content>
+        <img src="../assets/oj-logo.png" class="logo"
+      /></a-layout-header>
+      <a-layout-content class="content">
+        <a-space></a-space>
+        <router-view />
+      </a-layout-content>
       <a-layout-footer class="footer">
         <a href="https://hbulgat.github.io" target="_blank"> XOJ by bulgat </a>
       </a-layout-footer>
@@ -17,11 +20,15 @@
   text-align: center;
 }
 #userLayout .logo {
+  margin-top: 20px;
   width: 64px;
   height: 64px;
 }
 #userLayout .header {
-  margin-top: 16px;
+  padding-inline: 20px;
+  background: #f5f5f5;
+  color: unset;
+  margin-bottom: 16px;
 }
 
 #userLayout .content {
@@ -40,4 +47,4 @@
 }
 </style>
 
-<script></script>
+<script setup lang="ts"></script>

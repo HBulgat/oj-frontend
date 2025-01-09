@@ -42,7 +42,7 @@
 <script setup lang="ts">
 import ACCESS_ENUM from "@/access/accessEnum";
 import { LoginUserVO, UserControllerService, UserVO } from "../../../generated";
-import { Message } from "@arco-design/web-vue";
+import { message } from "ant-design-vue";
 import { onMounted, ref } from "vue";
 
 const userData = ref<LoginUserVO>({
@@ -59,7 +59,7 @@ const loadData = async () => {
   if (res.code === 0) {
     userData.value = res.data;
   } else {
-    Message.error("加载失败，", res.message as any);
+    message.error("加载失败，", res.message as any);
   }
 };
 const convertUserRoleToChinese = (userRole: string) => {
